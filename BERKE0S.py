@@ -2574,9 +2574,10 @@ Current available space will be checked during installation.
             self.progress_var.set(100)
             self.progress_text.insert(tk.END, "🎉 Installation completed successfully!\n")
             self.root.update()
-            
             # Enable next button
             self.root.after(2000, self.enable_next_button)
+            # Kurulumdan sonra otomatik olarak arayüzü başlat
+            self.finish_installation()
             
         except Exception as e:
             logger.error(f"Installation error: {e}")
