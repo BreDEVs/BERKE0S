@@ -3825,83 +3825,123 @@ class WindowManager:
             logger.error(f"Theme loading error: {e}")
             return builtin_themes
         
-    def setup_ui(self):
-        """Setup enhanced main UI with improved display handling"""
-        try:
-            logger.info("Setting up main UI...")
-            
-            # Check if display is available
-            if not self.display_manager.is_display_ready():
-                logger.warning("Display not ready, attempting headless mode")
-                self.setup_headless_mode()
-                return
-            
-            self.root = tk.Tk()
-            self.root.title("Berke0S 3.0 V2 - Ultimate Desktop")
-            
-            # Enhanced display configuration
-            try:
-                # Force fullscreen and proper display
-                self.root.attributes('-fullscreen', True)
-                self.root.state('zoomed')  # Maximize on Windows/Linux
-            except Exception as e:
-                logger.warning(f"Fullscreen setup failed: {e}")
-                # Fallback to maximized window
-                try:
-                    self.root.geometry("1024x768")
-                    self.root.state('normal')
-                except:
-                    pass
-            
-            # Enhanced window configuration
-            self.root.configure(bg=self.get_theme_color("bg"))
-            self.root.focus_force()
-            self.root.lift()
-            
-            # Bind window manager events
-            self.root.protocol("WM_DELETE_WINDOW", self.safe_shutdown)
-            
-            # Apply theme
-            self.apply_theme()
-            
-            # Create UI components in order
-            self.create_desktop()
-            self.create_taskbar()
-            self.create_dock()
-            
-            # Load wallpaper
-            self.load_wallpaper()
-            
-            # Create desktop icons
-            self.create_desktop_icons()
-            
-            # Bind events
-            self.bind_events()
-            
-            # Start system services
-            self.start_services()
-            
-            # Show welcome notification
-            self.notifications.send(
-                "Berke0S V2 Ready",
-                "Welcome to Berke0S 3.0 V2 with Enhanced Display Management!",
-                notification_type="success",
-                timeout=3000
-            )
-            
-            # Force window to front
-            self.root.after(100, lambda: (
-                self.root.deiconify(),
-                self.root.lift(),
-                self.root.focus_force()
-            ))
-            
-            logger.info("UI setup completed successfully")
-            
-        except Exception as e:
-            logger.error(f"UI setup error: {e}")
-            # Try headless mode as fallback
+def setup_ui(self):
+    """Setup enhanced main UI with improved display handling and advanced debugging"""
+    try:
+        logger.info("[UI] Başlatılıyor...")
+        print("[UI] Başlatılıyor...")
+        if not self.display_manager.is_display_ready():
+            logger.warning("[UI] Display not ready, headless mode")
+            print("[UI] Display not ready, headless mode")
             self.setup_headless_mode()
+            return
+
+        logger.info("[UI] Tk ana pencere oluşturuluyor...")
+        print("[UI] Tk ana pencere oluşturuluyor...")
+        self.root = tk.Tk()
+        self.root.title("Berke0S 3.0 V2 - Ultimate Desktop")
+        try:
+            self.root.attributes('-fullscreen', True)
+            self.root.state('zoomed')
+        except Exception as e:
+            logger.warning(f"[UI] Fullscreen setup failed: {e}")
+            print(f"[UI] Fullscreen setup failed: {e}")
+            try:
+                self.root.geometry("1024x768")
+                self.root.state('normal')
+            except:
+                pass
+        self.root.configure(bg=self.get_theme_color("bg"))
+        self.root.focus_force()
+        self.root.lift()
+        self.root.protocol("WM_DELETE_WINDOW", self.safe_shutdown)
+
+        logger.info("[UI] Tema uygulanıyor...")
+        print("[UI] Tema uygulanıyor...")
+        self.apply_theme()
+        logger.info("[UI] Tema uygulandı.")
+        print("[UI] Tema uygulandı.")
+
+        logger.info("[UI] Masaüstü oluşturuluyor...")
+        print("[UI] Masaüstü oluşturuluyor...")
+        self.create_desktop()
+        logger.info("[UI] Masaüstü oluşturuldu.")
+        print("[UI] Masaüstü oluşturuldu.")
+
+        logger.info("[UI] Görev çubuğu oluşturuluyor...")
+        print("[UI] Görev çubuğu oluşturuluyor...")
+        self.create_taskbar()
+        logger.info("[UI] Görev çubuğu oluşturuldu.")
+        print("[UI] Görev çubuğu oluşturuldu.")
+
+        logger.info("[UI] Dock oluşturuluyor...")
+        print("[UI] Dock oluşturuluyor...")
+        self.create_dock()
+        logger.info("[UI] Dock oluşturuldu.")
+        print("[UI] Dock oluşturuldu.")
+
+        logger.info("[UI] Duvar kağıdı yükleniyor...")
+        print("[UI] Duvar kağıdı yükleniyor...")
+        self.load_wallpaper()
+        logger.info("[UI] Duvar kağıdı yüklendi.")
+        print("[UI] Duvar kağıdı yüklendi.")
+
+        logger.info("[UI] Masaüstü ikonları oluşturuluyor...")
+        print("[UI] Masaüstü ikonları oluşturuluyor...")
+        self.create_desktop_icons()
+        logger.info("[UI] Masaüstü ikonları oluşturuldu.")
+        print("[UI] Masaüstü ikonları oluşturuldu.")
+
+        logger.info("[UI] Olaylar bağlanıyor...")
+        print("[UI] Olaylar bağlanıyor...")
+        self.bind_events()
+        logger.info("[UI] Olaylar bağlandı.")
+        print("[UI] Olaylar bağlandı.")
+
+        logger.info("[UI] Sistem servisleri başlatılıyor...")
+        print("[UI] Sistem servisleri başlatılıyor...")
+        self.start_services()
+        logger.info("[UI] Sistem servisleri başlatıldı.")
+        print("[UI] Sistem servisleri başlatıldı.")
+
+        logger.info("[UI] Hoşgeldin bildirimi gönderiliyor...")
+        print("[UI] Hoşgeldin bildirimi gönderiliyor...")
+        self.notifications.send(
+            "Berke0S V2 Hazır",
+            "Berke0S 3.0 V2 Gelişmiş Masaüstü hazır!",
+            notification_type="success",
+            timeout=3000
+        )
+        self.root.after(100, lambda: (
+            self.root.deiconify(),
+            self.root.lift(),
+            self.root.focus_force()
+        ))
+        logger.info("[UI] Tüm adımlar başarıyla tamamlandı.")
+        print("[UI] Tüm adımlar başarıyla tamamlandı.")
+    except Exception as e:
+        logger.error(f"[UI] HATA: {e}")
+        print(f"[UI] HATA: {e}")
+        # Hata mesajını pencereye yazdır
+        try:
+            import tkinter as tk
+            if not hasattr(self, 'root') or self.root is None:
+                self.root = tk.Tk()
+            for widget in self.root.winfo_children():
+                widget.destroy()
+            self.root.configure(bg="#222")
+            label = tk.Label(self.root, text=f"Bir hata oluştu:\n{e}", fg="white", bg="#222", font=("Arial", 16))
+            label.pack(pady=40)
+            btn = tk.Button(self.root, text="Çıkış", command=self.safe_shutdown, font=("Arial", 14), bg="#444", fg="white")
+            btn.pack(pady=20)
+            self.root.deiconify()
+            self.root.lift()
+            self.root.focus_force()
+        except Exception as e2:
+            logger.error(f"[UI] Hata mesajı gösterilemedi: {e2}")
+            print(f"[UI] Hata mesajı gösterilemedi: {e2}")
+            # Son çare: konsol modu
+            self.run_console_mode()
     
     def setup_headless_mode(self):
         """Setup headless mode for systems without display"""
